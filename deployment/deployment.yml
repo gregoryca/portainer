@@ -1,0 +1,50 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  
+  ####################################
+  # Creating a directory on the host #
+  #####################################
+  - name: Create a directory if it does not exist
+    ansible.builtin.file:
+      path: /temp/portainer/
+      state: directory
+      mode: '0777'
+      
+  ###############################
+  # Checkout the Nextcloud Repo #
+  ###############################
+  - name: Git Checkout Piholes
+    ansible.builtin.git:
+      repo: 'https://github.com/gregoryca/pihole.dns.git'
+      dest: /temp/portainer/
+
+  #########################
+  # Copy the compose file #
+  #########################
+  - name: copy Docker Compose files to remote server
+    copy:
+      src: /temp/portainer/docker-compose.yml
+      dest: /home/gregory/srv/portainer/
+      remote_src: yes
+    loop:
+    - docker-compose.yml
+    
+  #######################
+  # deploy compose file #
+  #######################
+  - name: deploy Docker Compose stack on remote server
+    docker_compose:
+      project_src: /home/gregory/srv/portainer/
+      files:
+      - docker-compose.yml
+      recreate: always
+
+  #########################################
+  # Clean up temp folder after deployment #
+  #########################################
+  - name: Delete content & directory
+    file:
+      state: absent
+      path: /temp/
