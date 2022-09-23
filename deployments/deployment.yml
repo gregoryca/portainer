@@ -8,7 +8,7 @@
   #####################################
   - name: Create a directory if it does not exist
     ansible.builtin.file:
-      path: /temp/portainer/
+      path: ~/temp/portainer/
       state: directory
       mode: '0777'
       
@@ -18,25 +18,23 @@
   - name: Git Checkout Piholes
     ansible.builtin.git:
       repo: 'https://github.com/gregoryca/portainer.git'
-      dest: /temp/portainer/
+      dest: ~/temp/portainer/
 
-  #########################
-  # Copy the compose file #
-  #########################
-  - name: copy Docker Compose files to remote server
+  ##########################
+  # Copy the git repo file #
+  ##########################
+  - name: copy git repo to remote server
     copy:
-      src: /temp/portainer/docker-compose.yml
-      dest: /home/gregory/srv/portainer/
+      src: ~/temp/portainer
+      dest: ~/srv/
       remote_src: yes
-    loop:
-    - docker-compose.yml
     
   #######################
-  # deploy compose file #
+  # Deploy compose file #
   #######################
   - name: deploy Docker Compose stack on remote server
     docker_compose:
-      project_src: /home/gregory/srv/portainer/
+      project_src: ~/srv/portainer/
       files:
       - docker-compose.yml
       recreate: always
