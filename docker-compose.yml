@@ -11,7 +11,7 @@ services:
        - web-secure
     labels:
        - "traefik.enable=true"
-       - "traefik.http.routers.portainer-secure.rule=Host(`portainer.cloud-migrations.nl`)"
+       - "traefik.http.routers.portainer-secure.rule=Host(`portainer.apex-migrations.net`)"
        - "traefik.http.routers.portainer-secure.tls.certresolver=production"
        - "traefik.http.routers.portainer-secure.tls=true"
        - "traefik.http.routers.portainer-secure.entrypoints=web-secure"
