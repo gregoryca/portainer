@@ -1,6 +1,7 @@
 ---
 - hosts: all
-  become: true
+  become: yes
+  become_user: gregory
   tasks:
   
   ####################################
@@ -25,7 +26,7 @@
   ##########################
   - name: Copy Git Repo from temp folder to srv folder
     copy:
-      src: ~/temp/portainer
+      src: ~/temp/portainer/
       dest: ~/srv/
     
   #######################
@@ -44,4 +45,4 @@
   - name: Delete content & directory
     file:
       state: absent
-      path: /temp/
+      path: ~/temp/

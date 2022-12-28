@@ -5,9 +5,10 @@ name: Deploy Portainer - Pipeline
 
 on:
   push:
-    branches: [ "dev, development" ]
-  pull_request:
-    branches: [ "master" ]
+    branches:
+      - master
+  # pull_request:
+  #   branches: [ "master" ]
 
   #################################################################
   # Allows you to run this workflow manually from the Actions tab #
