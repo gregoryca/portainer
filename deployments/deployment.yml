@@ -13,9 +13,9 @@
       mode: '0777'
       
   ###############################
-  # Checkout the Nextcloud Repo #
+  # Checkout the Portainer Repo #
   ###############################
-  - name: Git Checkout Piholes
+  - name: Git Checkout Repo
     ansible.builtin.git:
       repo: 'https://github.com/gregoryca/portainer.git'
       dest: ~/temp/portainer/
@@ -23,16 +23,15 @@
   ##########################
   # Copy the git repo file #
   ##########################
-  - name: copy git repo to remote server
+  - name: Copy Git Repo from temp folder to srv folder
     copy:
       src: ~/temp/portainer
       dest: ~/srv/
-      remote_src: yes
     
   #######################
   # Deploy compose file #
   #######################
-  - name: deploy Docker Compose stack on remote server
+  - name: deploy Docker Compose stack
     docker_compose:
       project_src: ~/srv/portainer/
       files:
