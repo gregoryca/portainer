@@ -30,7 +30,7 @@
   #deploy compose file
     - name: deploy Docker Compose stack
       docker_compose:
-        project_src: /home/gregory/srv/portainer/
+        project_src: ~/srv/portainer/
         files:
         - docker-compose.yml
         recreate: always
