@@ -1,0 +1,47 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  
+  ####################################
+  # Creating a directory on the host #
+  #####################################
+  - name: Create a directory if it does not exist
+    ansible.builtin.file:
+      path: ~/temp/portainer/
+      state: directory
+      mode: '0777'
+      
+  ###############################
+  # Checkout the Portainer Repo #
+  ###############################
+  - name: Git Checkout Repo
+    ansible.builtin.git:
+      repo: 'https://github.com/gregoryca/portainer.git'
+      dest: ~/temp/portainer/
+
+  ##########################
+  # Copy the git repo file #
+  ##########################
+  - name: Copy Git Repo from temp folder to srv folder
+    copy:
+      src: ~/temp/portainer
+      dest: ~/srv/
+    
+  #######################
+  # Deploy compose file #
+  #######################
+  - name: deploy Docker Compose stack
+    docker_compose:
+      project_src: ~/srv/portainer/
+      files:
+      - docker-compose.yml
+      recreate: always
+
+  #########################################
+  # Clean up temp folder after deployment #
+  #########################################
+  - name: Delete content & directory
+    file:
+      state: absent
+      path: /temp/
