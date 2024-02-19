@@ -17,7 +17,7 @@ services:
          - "traefik.http.routers.portainer-secure.tls=true"
          - "traefik.http.routers.portainer-secure.entrypoints=web-secure"
          - "traefik.http.services.portainer.loadbalancer.server.port=9000" #port to the webservice
-         - "traefik.http.routers.portainer-secure.middlewares=authelia-secure@docker, IP2Location@file, requestHeader@file"
+         - "traefik.http.routers.portainer-secure.middlewares=authelia-secure@docker, IP2Location@file"
 
          - sablier.enable=true
          - sablier.group=production
